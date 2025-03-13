@@ -4,7 +4,7 @@ import FormData from 'form-data';
 import fs from 'fs-extra';
 import path from 'path';
 import { ProcessedArticle } from './types';
-import { DeepSeekAPI } from 'deepseek-api';
+import deepseek from 'deepseek-api';
 
 // Định nghĩa các biến môi trường cho các dịch vụ
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || '';
