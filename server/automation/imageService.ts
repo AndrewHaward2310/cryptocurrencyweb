@@ -1,26 +1,26 @@
 import { createApi } from 'unsplash-js';
-import OpenAI from 'openai';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import fs from 'fs-extra';
 import path from 'path';
 import { ProcessedArticle } from './types';
+import { DeepSeekAPI } from 'deepseek-api';
 
 // Định nghĩa các biến môi trường cho các dịch vụ
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || '';
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || '';CCESS_KEY || '';
 
 export class ImageService {
   unsplash: any;
-  openai: any;
+  deepseek: any;
 
   constructor() {
     this.unsplash = createApi({
       accessKey: UNSPLASH_ACCESS_KEY,
       fetch: fetch as any,
     });
-    this.openai = new OpenAI({
-      apiKey: OPENAI_API_KEY,
+    this.deepseek = new DeepSeekAPI({
+      apiKey: DEEPSEEK_API_KEY,
     });
   }
 
@@ -29,21 +29,21 @@ export class ImageService {
    */
   async generateImageForArticle(article: any): Promise<string | null> {
     try {
-      if (!OPENAI_API_KEY) {
-        console.log('OPENAI_API_KEY không được cấu hình, không thể tạo hình ảnh.');
+      if (!DEEPSEEK_API_KEY) {
+        console.log('DEEPSEEK_API_KEY không được cấu hình, không thể tạo hình ảnh.');
         return null;
       }
 
-      // Tạo prompt cho DALL-E dựa trên nội dung bài viết
+      // Tạo prompt cho DeepSeek dựa trên nội dung bài viết
       const prompt = `Create a professional, journalistic image for a cryptocurrency article titled "${article.title}". The image should be appropriate for a financial news website, with a clean, modern style.`;
 
       console.log(`Đang tạo hình ảnh AI cho bài viết: ${article.title}`);
 
-      const response = await this.openai.images.generate({
+      const response = await this.deepseek.images.generate({
         prompt: prompt,
-        n: 1,
+        n: 1, 
         size: '1024x1024',
-        response_format: 'url',
+        format: 'url',
       });
 
       if (response.data && response.data.length > 0) {

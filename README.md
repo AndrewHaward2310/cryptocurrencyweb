@@ -59,7 +59,7 @@ touch .env
 DATABASE_URL=postgresql://username:password@localhost:5432/crypto_news
 
 # API Keys
-OPENAI_API_KEY=your_openai_api_key
+DEEPSEEK_API_KEY=your_deepseek_api_key
 COINGECKO_API_KEY=your_coingecko_api_key
 
 # Server Configuration
